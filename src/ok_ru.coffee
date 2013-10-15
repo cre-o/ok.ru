@@ -11,7 +11,7 @@ requestOptions =
   refreshToken: null
   defaultVerb: 'post'
 
-exports.version = '0.0.2'
+exports.version = '0.0.3'
 
 # It's like that and that's the way it is
 class OkApi
@@ -39,11 +39,12 @@ class OkApi
   #  ❨╯°□°❩╯︵┻━┻
   constructor: (method, postData, callback) ->
 
+    if typeof postData == 'function'
+      callback = postData
+
     if typeof method == 'object'
       postData = method
       method = requestOptions['defaultVerb']
-    if typeof postData == 'function'
-      callback = postData
 
     makeRequest(method, postData, callback)
 
@@ -71,7 +72,7 @@ class OkApi
           callback(data)
 
       else
-        return 'HTTP verb not supported'
+        console.log 'HTTP verb not supported'
 
   # Just apply that rules from http://apiok.ru/wiki/pages/viewpage.action?pageId=42476522
   okSignature = (postData) ->
