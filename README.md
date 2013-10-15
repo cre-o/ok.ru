@@ -39,8 +39,8 @@ new ok.api 'post', { method: 'users.isAppUser' }, (data) ->
 
 You also can refresh user token
 ```coffeescript
-  ok.refresh '{refresh_token}', (data) ->
-    # data => new token
+ok.refresh '{refresh_token}', (data) ->
+  # data => new token
 ```
 
 Enjoy!
