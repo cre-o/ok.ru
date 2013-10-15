@@ -25,7 +25,7 @@ ok.post { method: 'group.getUserGroupsV2' }, (data) ->
   # Some actions with data
 
 # You also can use alternative syntax
-request = new ok.api { method: 'group.users.getInfo', uids: '1,2,3', fields: 'name, age' }, (data) ->
+request = new ok.api { method: 'group.users.getInfo', uids: '1,2', fields: 'name, age' }, (data) ->
   # Some actions with data
 
 # You can also specify types of requests
