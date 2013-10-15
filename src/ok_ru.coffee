@@ -11,7 +11,7 @@ requestOptions =
   refreshToken: null
   defaultVerb: 'post'
 
-exports.version = '0.0.4'
+exports.version = '0.0.5'
 
 # It's like that and that's the way it is
 class OkApi
@@ -103,7 +103,7 @@ class OkApi
     _.each arrayOfArrays, (value) ->
       sortedParams += "#{_.first(value)}=#{_.last(value)}" + symbol
 
-    return sortedParams.replace(/\s+/g, '')
+    return sortedParams
 
 
 # Exports api as class
