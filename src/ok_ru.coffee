@@ -11,7 +11,7 @@ requestOptions =
   refreshToken: null
   defaultVerb: 'post'
 
-exports.version = '0.0.1'
+exports.version = '0.0.2'
 
 # It's like that and that's the way it is
 class OkApi
