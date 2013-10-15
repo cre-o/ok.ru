@@ -21,25 +21,25 @@ ok.setOptions(requestOptions)
 ok.setAccessToken('{access_token}');
 
 # All data passed in Object
-ok.post { method: 'group.getUserGroupsV2' }, (data) ->
+ok.post { method: 'group.getUserGroupsV2' }, (err, data) ->
   # Some actions with data
 
 # You also can use alternative syntax
-request = new ok.api { method: 'group.getMembers', uid: '999999' }, (data) ->
+request = new ok.api { method: 'group.getMembers', uid: '999999' }, (err, data) ->
   # Some actions with data
 
 # You can also specify types of requests
 ok.post, ok.get
 
 # Or pass in, as argument
-new ok.api 'post', { method: 'users.isAppUser' }, (data) ->
+new ok.api 'post', { method: 'users.isAppUser' }, (err, data) ->
   # some actions with data
 
 ```
 
 You also can refresh user token
 ```coffeescript
-ok.refresh '{refresh_token}', (data) ->
+ok.refresh '{refresh_token}', (err, data) ->
   # data => new token
 ```
 
