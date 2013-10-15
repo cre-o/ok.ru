@@ -58,18 +58,25 @@ class OkApi
 
     _.extend(requestedData, postData)
 
+    error = []
     switch method.toUpperCase()
       when 'POST'
 
         rest.post(OkApi.REST_BASE, {
           data: requestedData
         }).on 'complete', (data) ->
-          callback(data)
+          if data['error_code']?
+            error.push data
+
+          callback(error, data)
 
       when 'GET'
         getUrl = "#{OkApi.REST_BASE}?" + parametrize(requestedData, '&')
         rest.get(getUrl).on 'complete', (data) ->
-          callback(data)
+          if data['error_code']?
+            error.push data
+
+          callback(error, data)
 
       else
         console.log 'HTTP verb not supported'
