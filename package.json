@@ -1,0 +1,32 @@
+{
+  "name": "ok.ru",
+  "version": "0.0.1",
+  "description": "Odnoklassniki API client",
+  "keywords": [
+    "odnoklassniki",
+		"ok.ru",
+		"api"
+  ],
+  "author": {
+    "name": "Sergio Laminelli",
+    "email": "i@astronz.ru"
+  },
+  "main": "index",
+  "dependencies": {
+    "restler": "2.0.x",
+		"underscore" : "~1.4.2"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/astronz/ok.ru"
+  },
+  "engines": {
+    "node": ">= 0.4.1"
+  },
+  "readme": "# Odnoklassniki API client.",
+  "_id": "ok.ru@0.2.6",
+  "_from": "ok.ru"
+}
