@@ -1,6 +1,6 @@
 sys = require('util'); rest = require('restler')
 _ = require('underscore')
-crypto = require('crypto')
+md5 = require("blueimp-md5").md5
 
 # Default options
 requestOptions =
@@ -11,7 +11,7 @@ requestOptions =
   refreshToken: null
   defaultVerb: 'post'
 
-exports.version = '0.0.5'
+exports.version = '0.1.0'
 
 # It's like that and that's the way it is
 class OkApi
@@ -72,7 +72,7 @@ class OkApi
 
       when 'GET'
         getUrl = "#{OkApi.REST_BASE}?" + parametrize(requestedData, '&')
-        rest.get(getUrl).on 'complete', (data) ->
+        rest.get(getUrl).on 'complete', (data, resp) ->
           if data['error_code']?
             error.push data
 
@@ -88,9 +88,9 @@ class OkApi
     sortedParams = parametrize(postData)
 
     hashStr = "#{requestOptions['accessToken']}#{requestOptions['applicationSecretKey']}"
-    secret  = crypto.createHash('md5').update(hashStr).digest("hex")
+    secret  = md5(hashStr)
     # Hurray!
-    crypto.createHash('md5').update("#{sortedParams}#{secret}").digest("hex")
+    md5("#{sortedParams}#{secret}")
 
 
   # Method that helps made string of parameters for objects
