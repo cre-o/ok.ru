@@ -1,6 +1,6 @@
 {
   "name": "ok.ru",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Odnoklassniki API client",
   "keywords": [
     "odnoklassniki",
@@ -14,7 +14,8 @@
   "main": "index",
   "dependencies": {
     "restler": "2.0.x",
-		"underscore" : "~1.4.2"
+		"underscore": "~1.4.2",
+    "blueimp-md5": "~1.0.3"
   },
   "devDependencies": {
     "coffee-script": "1.6.x"
@@ -26,6 +27,6 @@
   "engines": {
     "node": ">= 0.4.1"
   },
-    "readme": "## Ok.ru API with node \n \n This npm module allows you to simplify API requests to odnoklassniki.ru ## Getting started \n Typical code may looks like this \n ```\n ok = require('ok.ru') \n \n # Basic configuration params \n requestOptions = { \n applicationSecretKey: '{secretKey}', \n applicationKey: '{applicationKey}', \n applicationId: '{applicationId}', \n } \n ok.setOptions(requestOptions) \n # You can specify accessToken in requestOptions or separately \n # For example: if you have many users and you whant to iterate from them \n ok.setAccessToken('{access_token}'); \n \n # All data passed in Object \n ok.post { method: 'group.getUserGroupsV2' }, (data) -> \n # Some actions with data \n \n # You also can use alternative syntax \n request = new ok.api { method: 'group.getMembers', uid: '999999' }, (data) -> \n # Some actions with data \n \n # You can also specify types of requests \n ok.post, ok.get \n \n # Or pass in, as argument \n new ok.api 'post', { method: 'users.isAppUser' }, (data) -> \n # some actions with data \n \n ```\n You also can refresh user token \n \n ok.refresh '{refresh_token}', (data) -> \n # data => new token \n ```\n \n Enjoy! \n",
+    "readme": "## Ok.ru API with node\n\n This npm module allows you to simplify API requests to odnoklassniki.ru\n ## Getting started\n Typical code may looks like this\n ```\n ok = require('ok.ru')\n\n # Basic configuration params\n requestOptions = { \n applicationSecretKey: '{secretKey}',\n applicationKey: '{applicationKey}',\n applicationId: '{applicationId}', \n }\n ok.setOptions(requestOptions)\n # You can specify accessToken in requestOptions or separately\n # For example: if you have many users and you whant to iterate from them\n ok.setAccessToken('{access_token}');\n\n # All data passed in Object\n ok.post { method: 'group.getUserGroupsV2' }, (err, data) ->\n # Some actions with data\n\n # You also can use alternative syntax\n request = new ok.api { method: 'group.getMembers', uid: '999999' }, (err, data) ->\n # Some actions with data\n\n # You can also specify types of requests\n ok.post, ok.get\n\n # Or pass in, as argument\n new ok.api 'post', { method: 'users.isAppUser' }, (err, data) ->\n # some actions with data\n\n ```\n You also can refresh user token\n\n ```\n ok.refresh '{refresh_token}', (data) ->\n # data => new token\n ```\n\n Enjoy! \n",
   "_from": "ok.ru"
 }
