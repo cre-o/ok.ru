@@ -14,7 +14,7 @@
   "main": "index",
   "dependencies": {
     "restler": "2.0.x",
-		"underscore": "~1.4.2",
+    "underscore": "~1.4.2",
     "blueimp-md5": "~1.0.3"
   },
   "devDependencies": {
