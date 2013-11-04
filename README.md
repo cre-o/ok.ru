@@ -17,7 +17,7 @@ requestOptions = {
 
 ok.setOptions(requestOptions)
 # You can specify accessToken in requestOptions or separately
-# For example: if you have many users and you whant to iterate from them
+# For example: if you have many users and you whant to iterate through them
 ok.setAccessToken('{access_token}');
 
 # All data passed in Object
@@ -37,7 +37,7 @@ new ok.api 'post', { method: 'users.isAppUser' }, (err, data) ->
 
 ```
 
-You also can refresh user token
+Refresh user token method
 ```coffeescript
 ok.refresh '{refresh_token}', (err, data) ->
   # data => new token
