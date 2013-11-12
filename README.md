@@ -1,9 +1,7 @@
 ## Ok.ru API with node
 
-This npm module allows you to simplify API requests to odnoklassniki.ru
-## Getting started
-
-Typical code may looks like this
+This npm module allows you to simplify making API requests into odnoklassniki REST API.
+## Example usage
 
 ```coffeescript
 ok = require("ok.ru")
@@ -24,10 +22,6 @@ ok.setAccessToken('{access_token}');
 ok.post { method: 'group.getUserGroupsV2' }, (err, data) ->
   # Some actions with data
 
-# You also can use alternative syntax
-request = new ok.api { method: 'group.getMembers', uid: '999999' }, (err, data) ->
-  # Some actions with data
-
 # You can also specify types of requests
 ok.post, ok.get
 
@@ -40,8 +34,12 @@ new ok.api 'post', { method: 'users.isAppUser' }, (err, data) ->
 Refresh user token method
 ```coffeescript
 ok.refresh '{refresh_token}', (err, data) ->
-  # data => new token
+  data.access_token # new token
 ```
+
+## Test it!
+Add your params at test/settings.yml and you are ready to go!  
+``$ mocha``
 
 Enjoy!
 
