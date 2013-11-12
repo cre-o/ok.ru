@@ -5,9 +5,9 @@ ok = require('../lib/ok_ru.js')
 
 describe "ok.ru", ->
 	before ->
-  	@settings = require('./settings.yml')
-  	@accessToken = null # You can set up token here
-  	@refreshToken = null # You can set up refresh_token here
+		@settings = require('./settings.yml')
+		@accessToken = null # You can set up token here
+		@refreshToken = null # You can set up refresh_token here
 
 	describe "Initialization", ->
     it "#getOptions", ->
@@ -26,10 +26,10 @@ describe "ok.ru", ->
     it '#post', ->
     	expect(ok.get).to.be.a('function')
 
-   it 'Needs odnoklassniki app params', ->
-   		error = ->
-   			ok.get({method: 'test'})
-   		expect(error).to.throw(/Please setup requestOptions with valid params./)
+    it 'Needs odnoklassniki app params', ->
+      error = ->
+        ok.get({method: 'test'})
+      expect(error).to.throw(/Please setup requestOptions with valid params./)
 
    	it 'Needs accessToken', ->
    		ok.setOptions {
@@ -86,13 +86,10 @@ describe "ok.ru", ->
   			expect(data).to.have.property('access_token')
   			done()
 
-   it 'Should processing request errors', (done) ->
-  		ok.setOptions(
-  			{ accessToken: 'Invalid' } # Invalid access_token
-  		)
+    it 'Should processing request errors', (done) ->
+      ok.setOptions({ accessToken: 'Invalid' }) # Invalid access_token
 
   		ok.post { method: 'users.isAppUser' }, (err, data, response) ->
   			expect(err).to.have.property('error_msg')
   			expect(response).to.exist
   			done()
-
