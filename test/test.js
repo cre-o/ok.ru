@@ -11,7 +11,7 @@ ok = require('../lib/ok_ru.js');
 
 describe("ok.ru", function() {
   before(function() {
-    this.settings = require('./settings.yml');
+    this.settings = require('./settings.my.yml');
     this.accessToken = null;
     return this.refreshToken = null;
   });
@@ -61,15 +61,15 @@ describe("ok.ru", function() {
   return describe('REST processing', function() {
     before(function() {
       var default_options;
-      return default_options = {
+      default_options = {
         applicationId: this.settings.app.app_id,
         applicationKey: this.settings.app.public_key,
         applicationSecretKey: this.settings.app.app_secret_key,
         accessToken: this.settings.tokens.access_token != null ? this.settings.tokens.access_token : this.accessToken,
         refreshToken: this.settings.tokens.refresh_token != null ? this.settings.tokens.refresh_token : this.refreshToken
       };
+      return ok.setOptions(default_options);
     });
-    ok.setOptions(default_options);
     it('Needs valid accessToken', function(done) {
       return ok.get({
         method: 'users.getCurrentUser'

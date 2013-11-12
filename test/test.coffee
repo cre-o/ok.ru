@@ -5,7 +5,7 @@ ok = require('../lib/ok_ru.js')
 
 describe "ok.ru", ->
 	before ->
-    @settings = require('./settings.yml')
+    @settings = require('./settings.my.yml')
     @accessToken = null # You can set up token here
     @refreshToken = null # You can set up refresh_token here
 
@@ -53,7 +53,7 @@ describe "ok.ru", ->
         refreshToken: if @settings.tokens.refresh_token? then @settings.tokens.refresh_token else @refreshToken
       }
 
-    ok.setOptions(default_options)
+      ok.setOptions(default_options)
 
     it 'Needs valid accessToken', (done) ->
       ok.get { method: 'users.getCurrentUser' }, (err, data) ->
