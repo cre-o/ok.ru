@@ -16,7 +16,7 @@ describe("ok.ru", function() {
     return this.refreshToken = null;
   });
   describe("Initialization", function() {
-    it("#getOptions", function() {
+    it('#getOptions', function() {
       var baseOptions;
       baseOptions = ok.getOptions();
       expect(baseOptions).to.have.property('applicationSecretKey');
@@ -61,15 +61,15 @@ describe("ok.ru", function() {
   return describe('REST processing', function() {
     before(function() {
       var default_options;
-      default_options = {
+      return default_options = {
         applicationId: this.settings.app.app_id,
         applicationKey: this.settings.app.public_key,
         applicationSecretKey: this.settings.app.app_secret_key,
         accessToken: this.settings.tokens.access_token != null ? this.settings.tokens.access_token : this.accessToken,
         refreshToken: this.settings.tokens.refresh_token != null ? this.settings.tokens.refresh_token : this.refreshToken
       };
-      return ok.setOptions(default_options);
     });
+    ok.setOptions(default_options);
     it('Needs valid accessToken', function(done) {
       return ok.get({
         method: 'users.getCurrentUser'
@@ -83,16 +83,17 @@ describe("ok.ru", function() {
       });
     });
     it('Send data via POST method', function(done) {
-      ok.post({
+      return ok.post({
         method: 'users.isAppUser'
       }, function(err, data) {
         expect(data).to.be.a('boolean');
         return done();
       });
-      return it('Send data via GET method', function(done) {
-        ok.get({
-          method: 'users.isAppUser'
-        }, function(err, data) {});
+    });
+    it('Send data via GET method', function(done) {
+      return ok.get({
+        method: 'users.isAppUser'
+      }, function(err, data) {
         expect(data).to.be.a('boolean');
         return done();
       });
@@ -107,17 +108,17 @@ describe("ok.ru", function() {
         return done();
       });
     });
-    return it('Should refresh token', function(done) {
+    it('Should refresh token', function(done) {
       var refresh_token;
       refresh_token = ok.getOptions()['refreshToken'];
-      ok.refresh(refresh_token, function(err, data) {
+      return ok.refresh(refresh_token, function(err, data) {
         expect(data).to.have.property('access_token');
         return done();
       });
-      it('Should processing request errors', function(done) {
-        return ok.setOptions({
-          accessToken: 'Invalid'
-        });
+    });
+    return it('Should processing request errors', function(done) {
+      ok.setOptions({
+        accessToken: 'Invalid'
       });
       return ok.post({
         method: 'users.isAppUser'
