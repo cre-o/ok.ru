@@ -9,16 +9,14 @@ requestOptions =
   applicationId: null
   accessToken: null
   refreshToken: null
-  defaultVerb: 'post'
+  # Default base urls where request's go
+  restBase: 'http://api.odnoklassniki.ru/fb.do'
+  refreshBase: 'http://api.odnoklassniki.ru/oauth/token.do'
 
-exports.version = '0.1.0'
+exports.version = '1.0.0'
 
 # It's like that and that's the way it is
 class OkApi
-
-  # Default base urls where request's go
-  @REST_BASE: 'http://api.odnoklassniki.ru/fb.do'
-  @REFRESH_BASE: 'http://api.odnoklassniki.ru/oauth/token.do'
 
   # We can construct requests on-fly
   # By doing this:
@@ -27,25 +25,13 @@ class OkApi
   #   ok.setOptions(requestOptions)
   #   ok.setAccessToken(requestOptions)
   #
-  #   new ok.api { method: 'group.getUserGroupsByIds', group_id: groupId, uids: userIds }, (err, response) ->
-  #     console.log response
-  #
-  # -OR-
-  #
-  # By using verbs: (POST, GET)
-  #   ok.(get|post) { method: 'group.getUserGroupsByIds', group_id: groupId, uids: userIds }, (err, response) ->
+  # And using verbs: (POST, GET)
+  #   ok.(get|post) { method: 'group.getUserGroupsByIds', group_id: groupId, uids: userIds }, (err, data) ->
   #     console.log response
   #
   #  ❨╯°□°❩╯︵┻━┻
   constructor: (method, postData, callback) ->
-
-    if typeof postData == 'function'
-      callback = postData
-
-    if typeof method == 'object'
-      postData = method
-      method = requestOptions['defaultVerb']
-
+    validateOptions()
     makeRequest(method, postData, callback)
 
   # private methods goes below ^_^
@@ -58,28 +44,21 @@ class OkApi
 
     _.extend(requestedData, postData)
 
-    error = []
-    switch method.toUpperCase()
+    error = null
+    switch method
       when 'POST'
-
-        rest.post(OkApi.REST_BASE, {
+        rest.post(requestOptions['restBase'], {
           data: requestedData
-        }).on 'complete', (data) ->
-          if data['error_code']?
-            error.push data
-
-          callback(error, data)
+        }).on 'complete', (data, response) ->
+          _callback(data, response, callback)
 
       when 'GET'
-        getUrl = "#{OkApi.REST_BASE}?" + parametrize(requestedData, '&')
-        rest.get(getUrl).on 'complete', (data, resp) ->
-          if data['error_code']?
-            error.push data
-
-          callback(error, data)
+        getUrl = "#{requestOptions['restBase']}?" + parametrize(requestedData, '&')
+        rest.get(getUrl).on 'complete', (data, response) ->
+          _callback(data, response, callback)
 
       else
-        console.log 'HTTP verb not supported'
+        throw 'HTTP verb not supported'
 
   # Just apply that rules from http://apiok.ru/wiki/pages/viewpage.action?pageId=42476522
   okSignature = (postData) ->
@@ -105,9 +84,23 @@ class OkApi
 
     return sortedParams
 
+  validateOptions = ->
+    unless requestOptions['applicationKey']? || requestOptions['applicationId']? || requestOptions['applicationSecretKey']?
+      throw 'Please setup requestOptions with valid params. @see https://github.com/astronz/ok.ru'
+    unless requestOptions['accessToken']?
+      throw 'AccessToken does not initialized. @see https://github.com/astronz/ok.ru'
+
 
 # Exports api as class
 exports.api = OkApi
+
+_callback = (data, response, callback) ->
+  # HTTP error
+  if (data instanceof Error)
+    callback(data.message, data, response)
+  else
+    error = data if data.hasOwnProperty('error_code') # API error
+    callback(error, data, response)
 
 #
 # Refresh user token to new one
@@ -115,8 +108,7 @@ exports.api = OkApi
 exports.refresh = (refreshToken = '', callback) ->
   requestOptions['refreshToken'] = refreshToken if refreshToken?
   unless requestOptions['refreshToken']?
-    console.log 'RefreshToken not valid for Refresh action'
-    return false
+    throw 'RefreshToken does not set. @see https://github.com/astronz/ok.ru'
 
   refresh_params =
     refresh_token: requestOptions['refreshToken']
@@ -124,10 +116,10 @@ exports.refresh = (refreshToken = '', callback) ->
     client_id: requestOptions['applicationId'],
     client_secret: requestOptions['applicationSecretKey']
 
-  rest.post(OkApi.REFRESH_BASE, {
-            data: refresh_params
-          }).on 'complete', (data) ->
-            callback(data)
+  rest.post(requestOptions['refreshBase'], {
+    data: refresh_params
+  }).on 'complete', (data, response) ->
+    _callback(data, response, callback)
 
 #
 # Prepares POST request for API
@@ -153,3 +145,7 @@ exports.getAccessToken = ->
 exports.setOptions = (options) ->
   if typeof options == 'object'
     _.extend(requestOptions, options)
+
+# Gets options
+exports.getOptions = ->
+  requestOptions
