@@ -11,7 +11,7 @@ ok = require('../lib/ok_ru.js');
 
 describe("ok.ru", function() {
   before(function() {
-    this.settings = require('./settings.my.yml');
+    this.settings = require('./settings.yml');
     this.accessToken = null;
     return this.refreshToken = null;
   });

@@ -5,7 +5,7 @@ ok = require('../lib/ok_ru.js')
 
 describe "ok.ru", ->
 	before ->
-    @settings = require('./settings.my.yml')
+    @settings = require('./settings.yml')
     @accessToken = null # You can set up token here
     @refreshToken = null # You can set up refresh_token here
 
