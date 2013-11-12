@@ -16,7 +16,7 @@ requestOptions = {
 ok.setOptions(requestOptions)
 # You can specify accessToken in requestOptions or separately
 # For example: if you have many users and you whant to iterate through them
-ok.setAccessToken('{access_token}');
+ok.setAccessToken('{access_token}')
 
 # All data passed in Object
 ok.post { method: 'group.getUserGroupsV2' }, (err, data) ->
@@ -26,9 +26,17 @@ ok.post { method: 'group.getUserGroupsV2' }, (err, data) ->
 ok.post, ok.get
 
 # Or pass in, as argument
-new ok.api 'post', { method: 'users.isAppUser' }, (err, data) ->
+new ok.api 'get', { method: 'users.isAppUser' }, (err, data) ->
   # some actions with data
 
+# It properly handle errors
+ok.setAccessToken('invalid_token') # Invalid token
+
+new ok.api 'get', { method: 'users.isAppUser' }, (err, data, response) ->
+  # some actions with data
+  alert "Alarm! Error! #{err}" if err?
+  # It can transport all response and headers
+  console.log response
 ```
 
 Refresh user token method
