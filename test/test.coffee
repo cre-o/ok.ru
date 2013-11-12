@@ -73,6 +73,11 @@ describe "ok.ru", ->
         expect(data).to.be.a('boolean')
         done()
 
+    it 'Works with instant initialize', (done) ->
+      new ok.api 'get', { method: 'users.isAppUser' }, (err, data) ->
+        expect(data).to.be.a('boolean')
+        done()
+
     it 'Can send many arguments', (done) ->
       ok.post { method: 'users.getInfo', uids: '554914033022', fields: 'uid, first_name, last_name, gender, age, online, url_profile' },
       (err, data) ->

@@ -98,6 +98,14 @@ describe("ok.ru", function() {
         return done();
       });
     });
+    it('Works with instant initialize', function(done) {
+      return new ok.api('get', {
+        method: 'users.isAppUser'
+      }, function(err, data) {
+        expect(data).to.be.a('boolean');
+        return done();
+      });
+    });
     it('Can send many arguments', function(done) {
       return ok.post({
         method: 'users.getInfo',
