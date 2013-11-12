@@ -45,7 +45,7 @@ class OkApi
     _.extend(requestedData, postData)
 
     error = null
-    switch method
+    switch method.toUpperCase()
       when 'POST'
         rest.post(requestOptions['restBase'], {
           data: requestedData
