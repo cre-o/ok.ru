@@ -13,7 +13,7 @@ requestOptions =
   restBase: 'http://api.odnoklassniki.ru/fb.do'
   refreshBase: 'http://api.odnoklassniki.ru/oauth/token.do'
 
-exports.version = '1.0.0'
+exports.version = '1.0.1'
 
 # It's like that and that's the way it is
 class OkApi
