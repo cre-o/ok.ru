@@ -13,7 +13,7 @@
   "homepage": "https://github.com/astronz/ok.ru",
   "main": "index",
   "dependencies": {
-    "restler": "2.0.x",
+    "request": "2.27.0",
     "underscore": "~1.4.x",
     "blueimp-md5": "~1.0.3"
   },
