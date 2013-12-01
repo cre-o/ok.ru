@@ -1,5 +1,4 @@
 require('js-yaml')
-assert = require('assert')
 expect = require('chai').expect
 ok = require('../lib/ok_ru.js')
 
