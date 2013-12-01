@@ -1,4 +1,4 @@
-sys = require('util'); rest = require('restler')
+qs = require('querystring'); request = require('request')
 _ = require('underscore')
 md5 = require("blueimp-md5").md5
 
@@ -12,8 +12,9 @@ requestOptions =
   # Default base urls where request's go
   restBase: 'http://api.odnoklassniki.ru/fb.do'
   refreshBase: 'http://api.odnoklassniki.ru/oauth/token.do'
+  responseFormat: 'json'
 
-exports.version = '1.1.1'
+exports.version = '1.2.0'
 
 # It's like that and that's the way it is
 class OkApi
@@ -44,19 +45,19 @@ class OkApi
 
     _.extend(requestedData, postData)
 
-    error = null
     switch method.toUpperCase()
       when 'POST'
-        rest.post(requestOptions['restBase'], {
-          data: requestedData
-        }).on 'complete', (data, response) ->
-          _callback(data, response, callback)
-
+        request.post {
+          uri: requestOptions['restBase']
+          json: true
+          headers: 'content-type': 'application/x-www-form-urlencoded'
+          body: qs.stringify(requestedData)
+        }, (error, response, body) ->
+          _responseHandler(error, response, body, callback)
       when 'GET'
         getUrl = "#{requestOptions['restBase']}?" + parametrize(requestedData, '&')
-        rest.get(getUrl).on 'complete', (data, response) ->
-          _callback(data, response, callback)
-
+        request.get { uri: getUrl, json: true }, (error, response, body) ->
+          _responseHandler(error, response, body, callback)
       else
         throw 'HTTP verb not supported'
 
@@ -94,13 +95,12 @@ class OkApi
 # Exports api as class
 exports.api = OkApi
 
-_callback = (data, response, callback) ->
-  # HTTP error
-  if (data instanceof Error)
-    callback(data.message, data, response)
+_responseHandler = (error, response, body, callback) ->
+  if error? # HTTP error
+    callback(error, body, response)
   else
-    error = data if data.hasOwnProperty('error_code') # API error
-    callback(error, data, response)
+    error = body if body.hasOwnProperty('error_code') # API error
+    callback(error, body, response)
 
 #
 # Refresh user token to new one
@@ -116,10 +116,13 @@ exports.refresh = (refreshToken = '', callback) ->
     client_id: requestOptions['applicationId'],
     client_secret: requestOptions['applicationSecretKey']
 
-  rest.post(requestOptions['refreshBase'], {
-    data: refresh_params
-  }).on 'complete', (data, response) ->
-    _callback(data, response, callback)
+  request.post {
+    uri: requestOptions['refreshBase']
+    json: true
+    headers: 'content-type': 'application/x-www-form-urlencoded'
+    body: qs.stringify(refresh_params)
+  }, (error, response, body) ->
+    _responseHandler(error, response, body, callback)
 
 #
 # Prepares POST request for API
