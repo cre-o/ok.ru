@@ -63,14 +63,13 @@ class OkApi
 
   # Just apply that rules from http://apiok.ru/wiki/pages/viewpage.action?pageId=42476522
   okSignature = (postData) ->
+    # Additional params that included into signature
     postData['application_key'] = requestOptions['applicationKey']
 
     sortedParams = parametrize(postData)
+    secret = md5(requestOptions['accessToken'] + requestOptions['applicationSecretKey'])
 
-    hashStr = "#{requestOptions['accessToken']}#{requestOptions['applicationSecretKey']}"
-    secret  = md5(hashStr)
-    # Hurray!
-    md5("#{sortedParams}#{secret}")
+    md5(sortedParams + secret)
 
 
   # Method that helps made string of parameters for objects
@@ -105,10 +104,8 @@ _responseHandler = (error, response, body, callback) ->
 #
 # Refresh user token to new one
 #
-exports.refresh = (refreshToken = '', callback) ->
-  requestOptions['refreshToken'] = refreshToken if refreshToken?
-  unless requestOptions['refreshToken']?
-    throw 'RefreshToken does not set. @see https://github.com/astronz/ok.ru'
+exports.refresh = (refreshToken, callback) ->
+  requestOptions['refreshToken'] = refreshToken
 
   refresh_params =
     refresh_token: requestOptions['refreshToken']
