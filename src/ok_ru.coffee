@@ -14,7 +14,7 @@ requestOptions =
   refreshBase: 'http://api.odnoklassniki.ru/oauth/token.do'
   responseFormat: 'json'
 
-exports.version = '1.2.0'
+exports.version = '1.3.0'
 
 # It's like that and that's the way it is
 class OkApi
