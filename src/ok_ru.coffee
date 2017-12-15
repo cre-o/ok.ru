@@ -39,7 +39,6 @@ class OkApi
 
   makeRequest = (method, postData, callback) ->
     requestedData =
-      access_token: requestOptions['accessToken']
       application_key: requestOptions['applicationKey']
       sig: okSignature(postData)
       
