@@ -39,10 +39,13 @@ class OkApi
 
   makeRequest = (method, postData, callback) ->
     requestedData =
-      access_token: requestOptions['accessToken']
       application_key: requestOptions['applicationKey']
       sig: okSignature(postData)
-
+      
+    # use access_token if presented only
+    if requestOptions['accessToken']? and requestOptions['accessToken'] isnt ''
+      requestedData.access_token = requestOptions['accessToken'];
+    
     _.extend(requestedData, postData)
 
     switch method.toUpperCase()
