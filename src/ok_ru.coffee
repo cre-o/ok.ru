@@ -48,6 +48,8 @@ class OkApi
     
     _.extend(requestedData, postData)
 
+    requestedData = parseObjectsToString(requestedData)
+
     switch method.toUpperCase()
       when 'POST'
         request.post {
@@ -74,6 +76,15 @@ class OkApi
 
     md5(sortedParams + secret)
 
+  # querystring not properly parse nested objects
+  parseObjectsToString = (data) ->
+    newData = {}
+    for key, value of data
+      if typeof value == 'object'
+        newData[key] = JSON.stringify(value)
+      else
+        newData[key] = value
+    return newData
 
   # Method that helps made string of parameters for objects
   parametrize = (obj, join = false) ->
@@ -83,7 +94,10 @@ class OkApi
 
     sortedParams = ''
     _.each arrayOfArrays, (value) ->
-      sortedParams += "#{_.first(value)}=#{_.last(value)}" + symbol
+      if typeof _.last(value) == 'object'
+        sortedParams += "#{_.first(value)}=#{JSON.stringify(_.last(value))}" + symbol
+      else
+        sortedParams += "#{_.first(value)}=#{_.last(value)}" + symbol
 
     return sortedParams
 
