@@ -1,6 +1,10 @@
 ## Ok.ru API with node
 
 This npm module allows you to simplify making API requests into odnoklassniki REST API.
+
+Urgent note — this repo is not maintained anymore. 
+Do a fork if you need security and other dependencies update.
+
 ## Example usage
 
 ```coffeescript
